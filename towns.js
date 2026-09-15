@@ -6,23 +6,21 @@ $(document).ready(function() {
 
 function deleteTown() {
     const townName = $('#townName').val();
-
     $('#townName').val('');
-
     let removed = false;
 
     for (const option of $('#towns option')) {
+
         if (option.textContent === townName) {
             removed = true;
             option.remove();
         }
     }
 
-    if (removed) 
-        $('#result').text(townName + ' deleted.');
-
+    if (removed)
+        showMessage(townName + ' deleted.');
     else
-        $('#result').text(townName + ' not found.');
+        showMessage(townName + ' not found.');
     
 }
 
@@ -31,7 +29,7 @@ function addTown() {
 
     $('#townNameForAdd').val('');
     $('#towns').append($('<option>').text(townName));
-    $('#result').text(townName + ' added.');
+    showMessage(townName + ' added.');
 }
 
 function shuffleTowns() {
@@ -40,9 +38,10 @@ function shuffleTowns() {
     $('#towns').empty();
     shuffleTownElements(towns);
     $('#towns').append(towns);
-    $('#result').text('Towns shuffled.');
+    showMessage('Towns shuffled.');
 
     function shuffleTownElements(townElements) {
+		
         for (let currIdx = townElements.length - 1; currIdx > 0; currIdx--) {
             const randomIdx = Math.floor(Math.random() * (currIdx + 1));
             const oldElement = townElements[currIdx];
@@ -51,4 +50,12 @@ function shuffleTowns() {
             townElements[randomIdx] = oldElement;
         }
     }
+}
+
+function showMessage(message) {
+    $('#result').text(message).css('display', 'block');
+
+    setTimeout(function() {
+        $('#result').hide('blind', {}, 500);
+    }, 3000);
 }
